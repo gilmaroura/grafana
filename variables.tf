@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "workspace_name" {
   description = "Name of the Amazon Managed Grafana workspace."
   type        = string
-  default     = "aws-environment-monitoring"
+  default     = "GRAFANA_Triskin"
 }
 
 variable "environment" {
