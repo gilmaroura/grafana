@@ -1,8 +1,7 @@
-﻿# Terraform (infra local - nao versionar)
+﻿# Terraform runtime (não versionar)
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
 crash.log
 crash.*.log
 override.tf
@@ -12,9 +11,11 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-*.tf
-*.tfvars
-*.tfvars.json
+# Variáveis locais com valores sensíveis
+*.auto.tfvars
+*.auto.tfvars.json
+terraform.tfvars
+terraform.tfvars.json
 
 # Secrets / env
 .env

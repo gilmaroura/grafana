@@ -1,0 +1,9 @@
+aws_region              = "us-east-1"
+workspace_name          = "aws-environment-monitoring"
+environment             = "prod"
+create_admin_access_key = false
+grafana_auth_providers  = ["AWS_SSO"]
+
+# tags = {
+#   Owner = "platform-team"
+# }
