@@ -1,28 +1,24 @@
 provider "aws" {
-  region = "us-east-1" # Altere para sua região de preferência
+  region = "us-east-1"
 }
 
-# Workspace do Grafana
 resource "aws_grafana_workspace" "grafana" {
   name                     = "grafana"
   account_access_type      = "CURRENT_ACCOUNT"
-  authentication_providers = ["AWS_SSO"] # Define AWS IAM Identity Center como provedor
+  authentication_providers = ["AWS_SSO"]
   permission_type          = "SERVICE_MANAGED"
-  data_sources             = ["AMAZON_OPENSEARCH_SERVICE", "CLOUDWATCH", "PROMETHEUS"]
+
+  data_sources = [
+    "AMAZON_OPENSEARCH_SERVICE",
+    "CLOUDWATCH",
+    "PROMETHEUS"
+  ]
 }
 
-# Usuário IAM
 resource "aws_iam_user" "admin_grafana" {
   name = "admin_grafana"
 }
 
-# Chaves de acesso para o usuário (opcional, para uso via CLI/API)
-resource "aws_iam_access_key" "admin_grafana_key" {
-  user = aws_iam_user.admin_grafana.name
-}
-
-# Política de Administrador do Grafana para o Usuário IAM
-# Esta política permite que o usuário gerencie o workspace via AWS (API/CLI)
 resource "aws_iam_user_policy" "grafana_admin_policy" {
   name = "GrafanaAdminPolicy"
   user = aws_iam_user.admin_grafana.name
@@ -31,18 +27,24 @@ resource "aws_iam_user_policy" "grafana_admin_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        Effect = "Allow"
         Action = [
-          "grafana:*",
-          "sso:DescribeInstance",
-          "sso:ListInstances",
-          "sso:AssociateDirectory",
-          "sso:ListDirectoryAssociations"
+          "grafana:DescribeWorkspace",
+          "grafana:ListWorkspaces"
         ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
+        Resource = aws_grafana_workspace.grafana.arn
+      }
     ]
   })
+}
+
+resource "aws_grafana_role_association" "admin" {
+  workspace_id = aws_grafana_workspace.grafana.id
+  role         = "ADMIN"
+
+  user_ids = [
+    aws_iam_user.admin_grafana.arn
+  ]
 }
 
 output "grafana_endpoint" {
