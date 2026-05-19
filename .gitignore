@@ -1,3 +1,23 @@
-.terraform/providers/registry.terraform.io/hashicorp/aws/6.45.0/linux_amd64/LICENSE.txt
-.terraform/providers/registry.terraform.io/hashicorp/aws/6.45.0/linux_amd64/terraform-provider-aws_v6.45.0_x5
+﻿# Terraform (infra local - nao versionar)
+.terraform/
+*.tfstate
+*.tfstate.*
 .terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+*.tf
+*.tfvars
+*.tfvars.json
+
+# Secrets / env
+.env
+.env.*
+*.pem
+*.key
