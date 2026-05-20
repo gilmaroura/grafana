@@ -19,11 +19,14 @@ resource "aws_identitystore_user" "grafana_admin" {
   }
 }
 
-# Recurso de pausa para evitar erro de associação do SSO (Race Condition)
-# A AWS leva algum tempo para registrar o Grafana como App no Identity Center
+# Aumentando para 5 minutos (300s) para garantir a propagação na AWS.
+# Em algumas contas/regiões, o registro da App SSO no Grafana pode ser lento.
 resource "time_sleep" "wait_sso_registration" {
-  depends_on = [aws_grafana_workspace.monitoring]
-  create_duration = "90s"
+  depends_on = [
+    aws_grafana_workspace.monitoring,
+    aws_identitystore_user.grafana_admin
+  ]
+  create_duration = "300s"
 }
 
 # Associa o usuário ao Workspace do Grafana com o papel de ADMIN
