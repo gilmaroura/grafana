@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "grafana_workspace_monitoring" {
     resources = ["*"]
   }
 
-  # Resource discovery for dashboards
+  # Resource discovery for dashboards (Permissões de leitura para descobrir recursos e montar filtros)
   statement {
     sid    = "ResourceDiscovery"
     effect = "Allow"
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "grafana_workspace_monitoring" {
       "aps:ListWorkspaces",
       "aps:DescribeWorkspace",
     ]
-    resources = ["*"]
+    resources = ["*"] # AMG precisa de "*" para listar recursos entre a conta
   }
 
   statement {

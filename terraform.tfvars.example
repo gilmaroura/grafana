@@ -3,6 +3,7 @@ workspace_name          = "aws-environment-monitoring"
 environment             = "prod"
 create_admin_access_key = false
 grafana_auth_providers  = ["AWS_SSO"]
+admin_email             = "seu-email@exemplo.com"
 
 # tags = {
 #   Owner = "platform-team"

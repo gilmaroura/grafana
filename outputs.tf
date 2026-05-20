@@ -39,3 +39,13 @@ output "admin_grafana_secret_access_key" {
   value       = try(aws_iam_access_key.admin_grafana[0].secret, null)
   sensitive   = true
 }
+
+output "identity_store_user_id" {
+  description = "The ID of the user created in IAM Identity Center."
+  value       = aws_identitystore_user.grafana_admin.user_id
+}
+
+output "identity_store_user_name" {
+  description = "The username of the user created in IAM Identity Center."
+  value       = aws_identitystore_user.grafana_admin.user_name
+}

@@ -41,12 +41,8 @@ variable "tags" {
   default     = {}
 }
 
-locals {
-  default_tags = {
-    Project     = "grafana-monitoring"
-    Environment = var.environment
-    ManagedBy   = "terraform"
-  }
-
-  tags = merge(local.default_tags, var.tags)
+variable "admin_email" {
+  description = "Email address for the Grafana Admin user in IAM Identity Center."
+  type        = string
+  default     = "admin.projects@triskin.tech"
 }
